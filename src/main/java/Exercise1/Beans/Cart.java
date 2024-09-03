@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -12,13 +13,13 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private double totalPrice;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cart") // !!!!!!!!!!!!!!!!!!!!!!!!!!!ManyToMany!!!!!!!!!!!
-    private List<Product> products;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Product> products;
 
     public Cart() {
     }
 
-    public Cart(List<Product> products, double totalPrice) {
+    public Cart(Set<Product> products, double totalPrice) {
         this.products = products;
         this.totalPrice = totalPrice;
     }
@@ -35,11 +36,11 @@ public class Cart {
         this.totalPrice = totalPrice;
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 

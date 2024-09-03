@@ -12,17 +12,14 @@ public class Product {
     private String title;
     private double price;
     private double shoppingCost;
-    @ManyToOne
-    private Cart cart;
 
     public Product() {
     }
 
-    public Product(String title, double price, double shoppingCost, Cart cart) {
+    public Product(String title, double price, double shoppingCost) {
         this.title = title;
         this.price = price;
         this.shoppingCost = shoppingCost;
-        this.cart = cart;
     }
 
     public int getId() {
@@ -53,14 +50,6 @@ public class Product {
         this.shoppingCost = shoppingCost;
     }
 
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
     @Override
     public String toString() {
         return "Product{" +
@@ -68,7 +57,6 @@ public class Product {
                 ", title='" + title + '\'' +
                 ", price=" + price +
                 ", shoppingCost=" + shoppingCost +
-                ", cart=" + cart.getId() +
                 '}';
     }
 }

@@ -7,6 +7,8 @@ import Exercise1.Beans.Product;
 import Exercise1.Repositories.Exceptions.NotExistException;
 import Exercise1.Repositories.CartRepository;
 import Exercise1.Repositories.ProductRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,17 +34,27 @@ public class MarketService {
     }
 
     // need to add deleting the product from !!all!! the carts
-//    public void deleteProduct(Product product) throws NotExistException {
-//        if (productRepository.existsById(product.getId())){
-//            Cart cart = product.getCart();
-//            cart.setTotalPrice(cart.getTotalPrice() - (product.getPrice()) + product.getShoppingCost());
-//            cartRepository.save(cart);
-//
-//            productRepository.deleteById(product.getId());
-//        } else
-//            throw new NotExistException("This product does not exist! Please enter existing product..");
-//    }
+    @Transactional//need to add if you want to delete from here, quote= GPT
+    public void deleteProduct(Product product) throws NotExistException {
+        // Update total_price in "cart" table:
+        List<Integer> allCarts = cartRepository.getAllCartsIdFromProductId(product.getId());
+        System.out.println(allCarts);
+        int count = 0;
+        for (int i = 0; i < allCarts.size(); i++) {
+            Cart cart = getOneCart(allCarts.get(i));
+            cart.setTotalPrice(cart.getTotalPrice() - product.getPrice());
+            count++;
+        }
+        System.out.println(count);
+        //-----------------
+        //delete from "cart_products" purchased products:
+        cartRepository.deleteFromCart_ProductsWhereProductId(product.getId());
 
+        //delete product from "products"
+        productRepository.deleteById(product.getId());
+    }
+
+    //need to delete all products to this cart
     public void deleteCart(Cart cart) throws NotExistException {
         if (cartRepository.existsById(cart.getId())){
             cartRepository.deleteById(cart.getId());
