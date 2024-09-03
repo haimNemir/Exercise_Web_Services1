@@ -2,8 +2,8 @@ package Exercise1.Controllers;
 
 import Exercise1.Beans.Cart;
 import Exercise1.Beans.Product;
-import Exercise1.Repositories.Exceptions.AlreadyExistException;
-import Exercise1.Repositories.Exceptions.NotExistException;
+import Exercise1.Exceptions.AlreadyExistException;
+import Exercise1.Exceptions.NotExistException;
 import Exercise1.Services.MarketService;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,5 +35,13 @@ public class MarketController {
     @GetMapping
     public Product getOneProduct(int id) throws NotExistException {
         return service.getOneProduct(id);
+    }
+
+
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!NOT WORKING!
+    @PostMapping("purchase_product")
+    public void addProductToCart(int productId, int cartId) throws NotExistException {
+        System.out.println("controller: "+productId + " " + cartId);
+        service.addProductToCart(productId, cartId);
     }
 }

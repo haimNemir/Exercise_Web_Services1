@@ -1,4 +1,4 @@
-package Exercise1.Repositories.Exceptions;
+package Exercise1.Exceptions;
 
 public class NotExistException extends Exception {
     public NotExistException(String massage) {

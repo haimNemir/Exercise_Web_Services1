@@ -13,7 +13,11 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
     @Query(nativeQuery = true, value = "select cart_id from online_market.cart_products where products_id = ?1")
     List<Integer> getAllCartsIdFromProductId(int productId);
 
-    @Modifying // when you use delete id Query you must use @Modifying annotation
+    @Modifying // when you use delete Query, you must use @Modifying annotation
     @Query(nativeQuery = true, value = "delete from online_market.cart_products where products_id = ?1")
-    void deleteFromCart_ProductsWhereProductId(int productID);
+    void deleteAllFromCart_ProductsWhereProductId(int productID);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "delete from online_market.cart_products where cart_id = ?1")
+    void deleteAllFromCart_ProductsWhereCartId(int cartId);
 }
